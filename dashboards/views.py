@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from blog.models import Blog, Category
-from dashboards.forms import CategoryForm
+from dashboards.forms import BlogPostForm, CategoryForm
 @login_required(login_url='login')
 def dashboard(request):
     category_count=Category.objects.all().count()
@@ -40,3 +40,21 @@ def edit_category(request,pk):
        'form':form,
     }
     return render(request,'dashboard/edit_category.html',context)
+
+def delete_category(request,pk):
+    category=get_object_or_404(Category,pk=pk)
+    category.delete()
+    return redirect('categories')
+
+def posts(request):
+    posts=Blog.objects.all()
+    context={
+        'posts':posts,
+        }
+    return render(request,'dashboard/posts.html',context)
+def add_post(request):
+    form=BlogPostForm()
+    context={
+        'form':form,
+    }
+    return render(request,'dashboard/add_post.html',context)
