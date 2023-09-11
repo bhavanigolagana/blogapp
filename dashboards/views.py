@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from blog.models import Blog, Category
-from dashboards.forms import BlogPostForm, CategoryForm
+from dashboards.forms import BlogPostForm, CategoryForm,AddUserForm
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 @login_required(login_url='login')
@@ -99,3 +99,18 @@ def users(request):
         'users':users,
     }
     return render(request,'dashboard/users.html',context)
+
+def add_user(request):
+    form=AddUserForm()
+    context={
+        'form':form,
+    }
+    return render(request,'dashboard/add_user.html',context)
+
+def edit_user(request,pk):
+    user=get_object_or_404(User,pk=pk)
+    form=AddUserForm(instance=user)
+    context={
+        'form':form,
+    }
+    return render(request,'dashboard/edit_user.html',context)
