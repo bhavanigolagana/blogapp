@@ -4,6 +4,7 @@
   <div class="row">
     {% include 'dashboard/sidebar.html' %}
     <div class="col-md-9">
+      {% if perms.auth.add_user %}
       <h1>Edit User</h1>
       <form action="" method="POST" >
       {% csrf_token %}
@@ -11,7 +12,12 @@
       <button type="submit" class="btn btn-warning">submit</button>
       </form>
       <br>
-      
+      {% else %}
+      <h5>you donot have permission to view this page</h5>
+      {% endif %}
     </div>
   </div>
 {% endblock %}
+
+      
+ 
